@@ -37,11 +37,12 @@ if ($Install.IsPresent) {
                                       -WorkingDirectory $PSScriptRoot
 
     $trigger = New-ScheduledTaskTrigger -AtLogOn
+    $settings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit $([System.TimeSpan]::Zero)
 
-    $task = New-ScheduledTask -Action $action -Description "Modern Warfare throttle" -Trigger $trigger -Principal $principal -ErrorAction Stop
-    $task | Register-ScheduledTask -TaskName "Modern Warfare Throttle" -ErrorAction Stop
+    $task = New-ScheduledTask -Action $action -Description "Modern Warfare throttle" -Trigger $trigger -Settings $settings -Principal $principal -ErrorAction Stop
+    $task | Register-ScheduledTask -TaskName "Modern Warfare Throttle" -ErrorAction Stop | Out-Null
     Start-ScheduledTask -TaskName  "Modern Warfare Throttle" -ErrorAction Stop
-
+    Write-Host "done"
     exit
 }
 
